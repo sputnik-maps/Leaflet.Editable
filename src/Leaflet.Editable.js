@@ -254,7 +254,7 @@ L.Editable.VertexMarker = L.Marker.extend({
     },
 
     onRemove: function (map) {
-        if (this.middleMarker) this.middleMarker.delete();
+        if (this.middleMarker) this.middleMarker['delete']();
         delete this.latlng.__vertex;
         this.off('drag', this.onDrag);
         this.off('dragstart', this.onDragStart);
@@ -307,7 +307,7 @@ L.Editable.VertexMarker = L.Marker.extend({
         this.editor.onVertexMarkerMouseDown(e);
     },
 
-    delete: function () {
+    'delete': function () {
         var next = this.getNext();  // Compute before changing latlng
         this.latlngs.splice(this.latlngs.indexOf(this.latlng), 1);
         this.editor.editLayer.removeLayer(this);
@@ -359,7 +359,7 @@ L.Editable.VertexMarker = L.Marker.extend({
     },
 
     resetMiddleMarker: function () {
-        if (this.middleMarker) this.middleMarker.delete();
+        if (this.middleMarker) this.middleMarker['delete']();
         this.addMiddleMarker();
     },
 
@@ -444,10 +444,10 @@ L.Editable.MiddleMarker = L.Marker.extend({
         this.editor.refresh();
         var marker = this.editor.addVertexMarker(e.latlng, this.latlngs);
         marker.dragging._draggable._onDown(e.originalEvent);  // Transfer ongoing dragging to real marker
-        this.delete();
+        this['delete']();
     },
 
-    delete: function () {
+    'delete': function () {
         this.editor.editLayer.removeLayer(this);
     },
 
@@ -684,7 +684,7 @@ L.Editable.PathEditor = L.Editable.BaseEditor.extend({
 
     onVertexRawMarkerClick: function (e) {
         if (!this.vertexCanBeDeleted(e.vertex)) return;
-        e.vertex.delete();
+        e.vertex['delete']();
         this.refresh();
     },
 
